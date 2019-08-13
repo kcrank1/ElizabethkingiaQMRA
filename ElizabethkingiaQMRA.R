@@ -42,8 +42,8 @@ dose<-rtriangle(n,conc_min,conc_max,conc_avg)/100*mL_on_hands*runif(n,transfer_l
 
 
 #######RESPONSE BETA POISSON (contact lense)
-alpha<-1.9E-01
-N50<-1.85E+04
+alpha<-3.55E-01	
+N50<-6.57E+03	
 Pinf_bp<-1-((1+dose*((2^(1/alpha)-1)/N50)))^-alpha
 Pill_bp<-Pinf_bp*morbidity
 Pdeath_bp<-Pill_bp*mortality
@@ -52,9 +52,9 @@ Pdeath_bp<-Pill_bp*mortality
 
 ##first need to calculate sd from percentile data provided in the wiki
 p95<-log(1.48E-04)#from wiki
-meank<-log(1.05E-04) #from wiki
+meank<--9.161550208 #from wiki
 zp95<-1.645 ##From stats table of z scores
-sd<-(p95-meank)/zp95 ##calculated
+sd<-0.205251453 ##calculated
 ##k is a log normal distribution using parameters calculated above
 k<-rlnorm(n,meank,sd)
 Pinf_e<-1-exp(-k*dose)
@@ -69,13 +69,17 @@ png("Risk_Endotracheal_tube_Beta_Poisson_Exponential.png")
 par(mfrow=c(1,1))
 boxplot(endo_risk, main=
           "Risk of infection, illness, and death separated 
-        by dose response model for endotracheal tubes in
-        immunocompromised individuals", log="y")
+        by dose response model for endotracheal tubes
+         in immunocompromised individuals", log="y",
+        ylab="Probability",
+        col = c("turquoise2","turquoise3","turquoise4","violetred2","violetred3","violetred4"))
 dev.off()
 boxplot(endo_risk, main=
           "Risk of infection, illness, and death separated 
-        by dose response model for endotracheal tubes in
-        immunocompromised individuals", log="y")
+          by dose response model for endotracheal tubes
+          in immunocompromised individuals", log="y",
+        ylab="Probability",
+        col = c("turquoise2","turquoise3","turquoise4","violetred2","violetred3","violetred4"))
 
 hist(dose,xlab="dose in CFUs",main="Dose of E. anophelis in an endotracheal tube scenario")
 
