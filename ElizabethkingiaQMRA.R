@@ -33,11 +33,13 @@ transfer_fomite<-1
 ####number of monte carlo samplings
 n=10000
 
-dose<-rtriangle(n,conc_min,conc_max,conc_avg)/100*mL_on_hands*runif(n,transfer_low,transfer_high)*transfer_fomite 
+
 
 #######Common response variables
 morbidity<-0.67 ###need a range
 mortality<-runif(n,0.23,0.52)
+dose<-rtriangle(n,conc_min,conc_max,conc_avg)/100*mL_on_hands*runif(n,transfer_low,transfer_high)*transfer_fomite 
+
 
 #######RESPONSE BETA POISSON (contact lense)
 alpha<-1.9E-01
@@ -49,12 +51,12 @@ Pdeath_bp<-Pill_bp*mortality
 ########RESPONSE EXPONENTIAL (injection)
 
 ##first need to calculate sd from percentile data provided in the wiki
-p95<-log(1.48E-04)
-meank<-log(1.05E-04)
-zp95<-1.645
-sd<-(p95-meank)/zp95
+p95<-log(1.48E-04)#from wiki
+meank<-log(1.05E-04) #from wiki
+zp95<-1.645 ##From stats table of z scores
+sd<-(p95-meank)/zp95 ##calculated
 ##k is a log normal distribution using parameters calculated above
-k<-rlnorm(10000,meank,sd)
+k<-rlnorm(n,meank,sd)
 Pinf_e<-1-exp(-k*dose)
 Pill_e<-Pinf_e*morbidity
 Pdeath_e<-Pill_e*mortality
