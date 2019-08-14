@@ -63,6 +63,16 @@ Pinf_bp<-1-((1+dose*((2^(1/alpha)-1)/N50)))^-alpha
 Pill_bp<-Pinf_bp*morbidity
 Pdeath_bp<-Pill_bp*mortality
 
+#########Line graph illlustrating difference between two models
+rangedose<-c(1:10000)
+beta_poisson<-1-((1+rangedose*((2^(1/alpha)-1)/N50)))^-alpha
+exponential<-1-exp(-k*rangedose)
+plot(rangedose,exponential, type="l",col="thistle4",xlab= "Dose in CFUs",
+     ylab="Probability of Infection",main=
+       "Both dose-response models graphed with varying doses")
+lines(rangedose,beta_poisson,lwd = 3,col="violetred")
+legend("bottomright", legend=c("Beta-Poisson", "Exponential"),
+       col=c("red", "green"), lty=1:2, cex=0.8)
 ########RESPONSE EXPONENTIAL (injection)
 
 ##first need to calculate sd from percentile data provided in the wiki
@@ -159,10 +169,11 @@ hist(dose,xlab="Dose in CFUs",main=
 rug(dose)
 dev.off()
 
+####Comparison line graph
 
 
-############################ RISK FEMALE CATHETER ################################################
+################################# RISK CATHETER ################################################
 
-############################ RISK MALE CATHETER ################################################
+
 
 
