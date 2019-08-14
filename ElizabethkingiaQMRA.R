@@ -87,15 +87,19 @@ Pdeath_e<-Pill_e*mortality
 number_intubated_year<-1701440
 
 #########Line graph illlustrating difference between two models
+
 rangedose<-c(1:10000)
 beta_poisson<-1-((1+rangedose*((2^(1/alpha)-1)/N50)))^-alpha
 exponential<-1-exp(-k*rangedose)
+png("Probability of infection with both dose response models.png",width = 8, height = 8, units = 'in', res = 800)  
+par(mfrow=c(1,1))
 plot(rangedose,exponential, type="l",col="thistle4",xlab= "Dose in CFUs",
      ylab="Probability of Infection",main=
        "Both dose-response models graphed with varying doses")
 lines(rangedose,beta_poisson,lwd = 3,col="violetred")
 legend("bottomright", legend=c("Beta-Poisson", "Exponential"),
-       col=c("red", "green"), lty=1:2, cex=0.8)
+       col=c("violetred", "thistle4"), lty=1:1, lwd = 2, cex=0.8)
+dev.off()
 
 
 
@@ -168,7 +172,7 @@ par(mfrow=c(1,1))
 hist(dose,xlab="Dose in CFUs",main=
        "Dose of E. anophelis in an contaminated endotracheal tube scenario",
         col="skyblue1",
-        xlim=c(0,0.6),
+        xlim=c(0,0.45),
         breaks=50)
 rug(dose)
 dev.off()
