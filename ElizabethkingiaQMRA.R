@@ -90,15 +90,15 @@ number_intubated_year<-1701440
 
 rangedose<-c(1:10000)
 beta_poisson<-1-((1+rangedose*((2^(1/alpha)-1)/N50)))^-alpha
-exponential<-1-exp(-k*rangedose)
+exponential<-1-exp(-mean_k*rangedose)
 png("Probability of infection with both dose response models.png",width = 8, height = 8, units = 'in', res = 800)  
 par(mfrow=c(1,1))
-plot(rangedose,exponential, type="l",col="thistle4",xlab= "Dose in CFUs",
+plot(rangedose,exponential, type="l",lwd = 3, col="thistle4",xlab= "Dose in CFUs",
      ylab="Probability of Infection",main=
        "Both dose-response models graphed with varying doses")
 lines(rangedose,beta_poisson,lwd = 3,col="violetred")
 legend("bottomright", legend=c("Beta-Poisson", "Exponential"),
-       col=c("violetred", "thistle4"), lty=1:1, lwd = 2, cex=0.8)
+       col=c("violetred", "thistle4"), lty=1:1, lwd = 2, cex=1)
 dev.off()
 
 
@@ -124,7 +124,7 @@ boxplot(endo_risk, main=
           "Risk of infection, illness, and death from E. anophelis-contaminated
            endotracheal tubes in immunocompromised individuals separated 
            by dose response model", log="y",
-        ylab="Probability",
+        ylab="Probability log10 scale",
         xlab="Beta Poisson Model         |         Exponential Model",
         names= c("Infection","Illness","Mortality","Infection","Illness","Mortality"),
         col = c("turquoise2","turquoise3","turquoise4","violetred2","violetred3","violetred4"))
@@ -184,7 +184,7 @@ dev.off()
 sensitivity_df<-data.frame(sa_fingertips,sa_hand,morbidity,mortality,conc_dist,transfer_dist,k,Pinf_bp,Pill_bp,Pdeath_bp,Pinf_e,Pill_e,Pdeath_e)
 names(sensitivity_df) <- c("P1", "P2","P3","P4","P5","P6","P7","Rbp1","Rbp2","Rbp3","Re1","Re2","Re3")
 View(sensitivity_df)
-
+summary(sensitivity_df)
 
 P1_Rbp1<-cor.test(sensitivity_df$P1, sensitivity_df$Rbp1, method="spearman")
 P2_Rbp1<-cor.test(sensitivity_df$P2, sensitivity_df$Rbp1, method="spearman")
